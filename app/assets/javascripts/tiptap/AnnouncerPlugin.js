@@ -7,6 +7,7 @@ import { Extension } from "@tiptap/core";
  */
 export const AnnouncerPlugin = (t, announcerRef) => {
   let lastAnnouncement = "";
+  let previousMarks = new Set();
 
   const updateAnnouncer = (text) => {
     const announcer = announcerRef.current;
@@ -31,7 +32,14 @@ export const AnnouncerPlugin = (t, announcerRef) => {
           key: new PluginKey("announcer"),
           appendTransaction(transactions, oldState, newState) {
             // Only process if the selection changed
-            if (!transactions.some((tr) => tr.selectionSet)) return null;
+if (
+  !transactions.some(
+    (tr) => tr.selectionSet || tr.docChanged || tr.storedMarksSet,
+  )
+) {
+  return null;
+}
+}
 
             const { selection } = newState;
             const { $from } = selection;
@@ -39,10 +47,24 @@ export const AnnouncerPlugin = (t, announcerRef) => {
 
             // 1. Process active marks at current selection
             const marks = $from.marks();
-            marks.forEach((mark) => {
-              const label = t[mark.type.name]?.label;
-              if (label) stack.push(label);
-            });
+            const currentMarks = new Set(marks.map((mark) => mark.type.name));
+
+const wasItalic = previousMarks.has("italic");
+const isItalic = currentMarks.has("italic");
+
+if (!wasItalic && isItalic) {
+  stack.push(t.italic.entered);
+} else if (wasItalic && !isItalic) {
+  stack.push(t.italic.exited);
+}
+
+previousMarks = currentMarks;
+           marks.forEach((mark) => {
+  if (mark.type.name === "italic") return;
+
+  const label = t[mark.type.name]?.label;
+  if (label) stack.push(label);
+});
 
             // 2. Handle Node Selection (Atomic nodes like HorizontalRule)
             if (selection.node) {
