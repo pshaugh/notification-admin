@@ -54,10 +54,12 @@ export const translations = {
       label: "Bold",
       shortcut: shortcuts.bold,
     },
-    italic: {
-      label: "Italic",
-      shortcut: shortcuts.italic,
-    },
+   italic: {
+  label: "Italic",
+  entered: "Italic begins",
+  exited: "Italic ends",
+  shortcut: shortcuts.italic,
+},
     bulletList: {
       label: "Bulleted List",
       shortcut: shortcuts.bulletList,
@@ -175,10 +177,12 @@ export const translations = {
       label: "Gras",
       shortcut: shortcuts.bold,
     },
-    italic: {
-      label: "Italique",
-      shortcut: shortcuts.italic,
-    },
+   italic: {
+  label: "Italique",
+  entered: "Début de l’italique",
+  exited: "Fin de l’italique",
+  shortcut: shortcuts.italic,
+},
     bulletList: {
       label: "Liste à puces",
       shortcut: shortcuts.bulletList,
