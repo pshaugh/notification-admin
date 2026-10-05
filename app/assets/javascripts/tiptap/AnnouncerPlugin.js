@@ -39,7 +39,7 @@ if (
 ) {
   return null;
 }
-}
+
 
             const { selection } = newState;
             const { $from } = selection;
@@ -49,8 +49,8 @@ if (
             const marks = $from.marks();
             const currentMarks = new Set(marks.map((mark) => mark.type.name));
 
-const wasItalic = previousMarks.has("italic");
-const isItalic = currentMarks.has("italic");
+            const wasItalic = previousMarks.has("italic");
+            const isItalic = currentMarks.has("italic");
 
 if (!wasItalic && isItalic) {
   stack.push(t.italic.entered);
