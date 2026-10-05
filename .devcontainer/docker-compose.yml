@@ -28,5 +28,4 @@ services:
       - notify-network
 
 networks:
- networks:
   notify-network:
